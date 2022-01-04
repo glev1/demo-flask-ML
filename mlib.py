@@ -5,12 +5,13 @@ import pandas as pd
 from sklearn.linear_model import Ridge
 import joblib
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import tran_test_split
+from sklearn.model_selection import train_test_split
 import logging
 import warnings
 
 logging.basicConfig(level=logging.INFO)
-warning.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
 
 def load_model(model="model.joblib"):
     """Grabs model from disk"""
@@ -52,12 +53,14 @@ def retrain(tsize=0.1, model_name="model.joblib"):
     joblib.dump(model, model_name)
     return accuracy, model_name
 
+
 def format_input(x):
     """Takes int and converts to numpy array"""
 
     val = np.array(x)
     feature = val.reshape(-1, 1)
-    return Feature
+    return feature
+
 
 def scale_input(val):
     """Scales input to training feature values"""
@@ -69,18 +72,20 @@ def scale_input(val):
     scaled_input = input_scaler.transform(val)
     return scaled_input
 
+
 def scale_target(target):
     """Scales Target 'y' Value"""
 
     df = data()
     y = df["Height"].values  # Target
-    y = y.reshape(-1 ,1)
+    y = y.reshape(-1, 1)
 
     scaler = StandardScaler()
     y_scaler = scaler.fit(y)
 
     scaled_target = y_scaler.inverse_transform(target)
     return scaled_target
+
 
 def height_human(float_inches):
     """Takes float inches and converts to human height in ft/inches"""
@@ -89,6 +94,7 @@ def height_human(float_inches):
     inches_left = round(float_inches - feet * 12)
     result = f"{feet} foot, {inches_left} inches"
     return result
+
 
 def human_readable_payload(predict_value):
     """Takes numpy array and returns back human readable dictionary"""
@@ -100,6 +106,7 @@ def human_readable_payload(predict_value):
     }
     return result
 
+
 def predict(weight):
     """Takes weight and predicts height"""
 
@@ -108,13 +115,13 @@ def predict(weight):
     scaled_input_result = scale_input(np_array_weight)
     scaled_height_prediction = clf.predict(scaled_input_result)
     heigth_predict = scale_target(scaled_height_prediction)
-    payload = human_readable_payload(heith_predict)
+    payload = human_readable_payload(heigth_predict)
     predict_log_data = {
         "weight": weight,
         "scaled_input_result": scaled_input_result,
         "scaled_height_prediction": scaled_height_prediction,
-        "height_predict": height_predict,
-        "human_readable_payload": payload
+        "height_predict": heigth_predict,
+        "human_readable_payload": payload,
     }
     logging.debug(f"Prediction: {predict_log_data}")
     return payload
