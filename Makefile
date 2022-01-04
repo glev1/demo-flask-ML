@@ -7,3 +7,5 @@ format:
 
 lint:
 	pylint --disable=R,C,W1203,E1101 mlib
+
+all: install lint test
