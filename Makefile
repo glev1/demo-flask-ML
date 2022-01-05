@@ -12,4 +12,10 @@ lint:
 test:
 	python -m pytest -vv --cov=cli --cov=mlib --cov=utilscli test_mlib.py
 
+build:
+	docker build -t flask-ml:latest .
+
+run:
+	docker run -p 8080:8080 flask-ml
+
 all: install lint test
